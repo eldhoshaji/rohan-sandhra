@@ -40,13 +40,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
         if (targetId === '#') return;
 
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-            // For hero to story transition, scroll directly to story section
-            targetSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+        // Special handling for home section - scroll to absolute top
+        if (targetId === '#home') {
+            // Disable smooth scroll temporarily for instant jump
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, 0);
+            // Re-enable smooth scroll after a brief delay
+            setTimeout(() => {
+                document.documentElement.style.scrollBehavior = 'smooth';
+            }, 10);
+        } else {
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                // For other sections, scroll to the section
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
     });
 });
