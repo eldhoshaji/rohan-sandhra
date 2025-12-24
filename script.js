@@ -124,90 +124,75 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Gallery lightbox effect (simple version)
-const galleryItems = document.querySelectorAll('.gallery-item');
+// Gallery lightbox with navigation
+const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
 
-galleryItems.forEach(item => {
+galleryItems.forEach((item, idx) => {
     item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        const lightbox = document.createElement('div');
-        lightbox.className = 'lightbox';
-        lightbox.innerHTML = `
-            <div class="lightbox-content">
-                <span class="lightbox-close">&times;</span>
-                <img src="${img.src}" alt="${img.alt}">
-            </div>
-        `;
+        const imgs = galleryItems.map(i => i.querySelector('img'));
+        let currentIndex = idx;
 
-        document.body.appendChild(lightbox);
-        document.body.style.overflow = 'hidden';
+        const createLightbox = (index) => {
+            const img = imgs[index];
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox';
+            lightbox.innerHTML = `
+                <div class="lightbox-content">
+                    <button class="lightbox-prev" aria-label="Previous image">◀</button>
+                    <img src="${img.src}" alt="${img.alt}">
+                    <button class="lightbox-next" aria-label="Next image">▶</button>
+                    <button class="lightbox-close" aria-label="Close">&times;</button>
+                </div>
+            `;
 
-        // Add styles dynamically
-        lightbox.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-        `;
+            document.body.appendChild(lightbox);
+            document.body.style.overflow = 'hidden';
 
-        const lightboxContent = lightbox.querySelector('.lightbox-content');
-        lightboxContent.style.cssText = `
-            position: relative;
-            max-width: 90%;
-            max-height: 90vh;
-        `;
+            // Styles
+            lightbox.style.cssText = `position: fixed;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0,0,0,0.95);z-index:10000;display:flex;align-items:center;justify-content:center;`;
+            const lbContent = lightbox.querySelector('.lightbox-content');
+            lbContent.style.cssText = `position: relative; max-width: 90%; max-height: 90vh; display:flex; align-items:center; gap:1rem;`;
+            const lbImg = lbContent.querySelector('img');
+            lbImg.style.cssText = `max-width: 100%; max-height: 90vh; border-radius:10px; box-shadow:0 10px 50px rgba(0,0,0,0.5);`;
 
-        const lightboxImg = lightbox.querySelector('img');
-        lightboxImg.style.cssText = `
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 10px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
-        `;
+            const prevBtn = lightbox.querySelector('.lightbox-prev');
+            const nextBtn = lightbox.querySelector('.lightbox-next');
+            const closeBtn = lightbox.querySelector('.lightbox-close');
 
-        const closeBtn = lightbox.querySelector('.lightbox-close');
-        closeBtn.style.cssText = `
-            position: absolute;
-            top: -40px;
-            right: 0;
-            font-size: 40px;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        `;
+            [prevBtn, nextBtn, closeBtn].forEach(btn => {
+                btn.style.cssText = `background: rgba(255,255,255,0.06); border:none; color:white; padding:0.6rem 0.9rem; border-radius:6px; cursor:pointer; font-size:18px;`;
+            });
 
-        // Close lightbox
-        const closeLightbox = () => {
-            lightbox.style.animation = 'fadeOut 0.3s ease';
-            setTimeout(() => {
+            const showImage = (i) => {
+                currentIndex = (i + imgs.length) % imgs.length;
+                const nextImg = imgs[currentIndex];
+                lbImg.src = nextImg.src;
+                lbImg.alt = nextImg.alt;
+            };
+
+            const closeLightbox = () => {
+                document.removeEventListener('keydown', keyHandler);
                 lightbox.remove();
                 document.body.style.overflow = 'auto';
-            }, 300);
+            };
+
+            const keyHandler = (e) => {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+                if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+            };
+
+            prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+            nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+            document.addEventListener('keydown', keyHandler);
         };
 
-        closeBtn.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                closeLightbox();
-            }
-        });
-
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
-        });
+        createLightbox(currentIndex);
     });
 
-    // Add hover effect
+    // Add pointer cursor
     item.style.cursor = 'pointer';
 });
 

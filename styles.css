@@ -162,7 +162,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
     min-height: 600px;
     background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
-                url('IMG_9764.jpg') center/cover no-repeat;
+                url('images/IMG_9764.jpg') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -814,9 +814,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    /* Use flexbox for a more flexible, wrap-able gallery */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: center;
 }
 
 .gallery-item {
@@ -824,6 +826,9 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
     border-radius: 10px;
     height: 350px;
+    flex: 1 1 calc(33.333% - 1.25rem);
+    min-width: 220px;
+    max-width: 420px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
@@ -873,6 +878,20 @@ h1, h2, h3, h4, h5, h6 {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
     letter-spacing: 1px;
+}
+
+/* Focus states for accessibility */
+input:focus, select:focus, textarea:focus, .event-btn:focus, .nav-link:focus {
+    outline: 2px solid rgba(212,175,55,0.3);
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .gallery-item { flex: 1 1 calc(50% - 1rem); }
+}
+
+@media (max-width: 480px) {
+    .gallery-item { flex: 1 1 100%; }
 }
 
 /* Animations */
