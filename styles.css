@@ -23,7 +23,6 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
 }
 
 body {
@@ -168,8 +167,6 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     position: relative;
     color: var(--white);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     z-index: 10;
 }
 
@@ -293,8 +290,6 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 100vh;
     padding: 120px 0;
     background: var(--light-color);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     display: flex;
     align-items: center;
     position: relative;
@@ -422,7 +417,6 @@ h1, h2, h3, h4, h5, h6 {
 .schedule-section {
     padding: 100px 0;
     background: var(--white);
-    scroll-snap-align: start;
 }
 
 .timeline {
@@ -570,7 +564,6 @@ h1, h2, h3, h4, h5, h6 {
 .details-section {
     padding: 100px 0;
     background: var(--light-color);
-    scroll-snap-align: start;
 }
 
 .details-grid {
@@ -758,7 +751,6 @@ h1, h2, h3, h4, h5, h6 {
 .travel-section {
     padding: 100px 0;
     background: var(--white);
-    scroll-snap-align: start;
 }
 
 .travel-grid {
@@ -810,7 +802,6 @@ h1, h2, h3, h4, h5, h6 {
 .gallery-section {
     padding: 100px 0;
     background: var(--light-color);
-    scroll-snap-align: start;
 }
 
 .gallery-grid {
@@ -958,10 +949,6 @@ input:focus, select:focus, textarea:focus, .event-btn:focus, .nav-link:focus {
 }
 
 @media (max-width: 768px) {
-    html {
-        scroll-snap-type: y proximity;
-    }
-
     .nav-menu {
         position: fixed;
         top: 70px;
