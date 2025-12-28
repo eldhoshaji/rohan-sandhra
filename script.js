@@ -123,15 +123,18 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Add parallax effect to hero section
+// Add parallax effect to hero section (only on desktop)
 const hero = document.querySelector('.hero');
 
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const parallaxSpeed = 0.5;
 
-    if (hero) {
+    // Only apply parallax on desktop (screen width > 768px)
+    if (hero && window.innerWidth > 768) {
         hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+    } else if (hero) {
+        hero.style.transform = 'translateY(0)';
     }
 });
 
