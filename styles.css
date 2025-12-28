@@ -104,6 +104,12 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 1px;
 }
 
+.nav-logo img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
@@ -798,6 +804,38 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-light);
 }
 
+/* Video Section */
+.video-section {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.video-container {
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 177.78%; /* 9:16 aspect ratio for Shorts */
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .video-container {
+        max-width: 300px;
+    }
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
 /* Gallery Section */
 .gallery-section {
     padding: 100px 0;
@@ -1007,11 +1045,34 @@ input:focus, select:focus, textarea:focus, .event-btn:focus, .nav-link:focus {
     .story-section {
         min-height: auto;
         padding: 80px 0;
+        background: linear-gradient(rgba(245, 241, 232, 0.85), rgba(245, 241, 232, 0.85)),
+                    url('images/IMG_0080.jpg') center/cover no-repeat;
+        position: relative;
     }
 
     .story-grid {
         flex-direction: column;
         gap: 2rem;
+    }
+
+    .story-image {
+        display: none;
+    }
+
+    .countdown-container {
+        background: transparent;
+        padding: 2rem;
+        border-radius: 10px;
+    }
+
+    .countdown-title {
+        color: var(--dark-color);
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+    }
+
+    .countdown-message {
+        color: var(--dark-color);
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
     }
 
     .timeline-item {
